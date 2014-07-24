@@ -6,16 +6,18 @@
 
 makeCacheMatrix <- function(x = matrix() ) {
         s <- NULL
-        setmatrix <- function(y) {
+        setMat <- function(y) {
             x <<- y
             s <<- NULL
         }
-        getmatrix <- function() x
-        setsolve <- function(solve) s <<- solve
-        getsolve <- function() solve(s)
-        list(set = set, get = get,
-             setsolve = setsolve,
-             getsolve = getsolve)
+        getMat <- function() x
+        setInv <- function(solve) s <<- solve
+        getInv <- function() s
+        list(setMat = setMat, 
+             getMat = getMat,
+             setInv = setInv,
+             getInv = getInv
+             )
 }
 
 
@@ -23,31 +25,39 @@ makeCacheMatrix <- function(x = matrix() ) {
 
 cacheSolve <- function(x, ...) {
         ## Return a matrix that is the inverse of 'x'
-        s <- x$getsolve()
-        if(!is.null(s)) {
+        s <- x$getInv()
+        if(is.null(s)) {
             message("getting cached matrix")
-            return(s)
+            message("cached matrix was not calculated")
         }
         
-        d <- x$getdet()
-        if(is.null(d)) {
-            message("input was not a squared matrix")
-            return(d)
+        data <- x$getMat()
+        
+        data.nr <- nrow(data)
+        data.nc <- ncol(data)
+        if( data.nr == data.nc) {
+            message("cached matrix is squared matrix")
         }
-        else if(abs(d) < 0.001) {
-            message("input was not a inversable matrix")
-            return(d)
+        else {
+            message("cached matrix is not squared matrix")
+            return(data)
         }
         
-        data <- x$get()
-        s <- det(data, ...)
-        x$setsolve(s)
+        data.det <- det(data)
+        if( abs(data.det) >= 0.001) {
+            message("cached matrix has a inversed matrix")
+        }
+        else {
+            message("cached matrix has no inversed matrix")
+            return(data)
+        }
+        
+        s <- solve(data, ...)
+        if(!is.null(s)) {
+            message("getting inversed matrix")
+        }
+        
+        x$setInv(s)
         s
+        
 }
-
-### d <- NULL
-###   d <<- NULL
-###setdet <- function(det) d <<- det
-###getdet <- function() d
-##setdet = setdet,
-##getdet = getdet,
