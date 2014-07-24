@@ -2,7 +2,12 @@
 ## functions do
 
 ## Write a short comment describing this function
-## 
+
+## 'makeCacheMatrix' creates a list containing two matrixes
+## 'Mat' is assgined the matrix in the argument. Two sub-functions
+## 'setMat' and 'getMat' serve this. 'Inv' is the inversed matrix
+## of 'Mat'. Two sub-functions 'setInv' and 'getInv' wait the matrix
+## that will be calculated in cacheSolve().
 
 makeCacheMatrix <- function(x = matrix() ) {
         s <- NULL
@@ -22,6 +27,17 @@ makeCacheMatrix <- function(x = matrix() ) {
 
 
 ## Write a short comment describing this function
+
+## Inversed matrix has not be generated at the input of
+## 'Mat'. First if loop makes sure a matrix was got and
+## passes to 'data' object. Second if loop makes sure this
+## object a squred matrix, and third if loop makes sure
+## an inversed matrix able to be calcualated. Final if loop
+## checks the output of calculation and passes to 'Inv'. 
+
+## This function had been checked in use of the function
+## provided by Daniel Fumanal who suggested the oringial
+## script in the forum. 
 
 cacheSolve <- function(x, ...) {
         ## Return a matrix that is the inverse of 'x'
@@ -59,5 +75,4 @@ cacheSolve <- function(x, ...) {
         
         x$setInv(s)
         s
-        
 }
